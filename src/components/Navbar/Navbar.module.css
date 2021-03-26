@@ -13,10 +13,15 @@
   list-style-type: none;
 }
 
+.item {
+  margin: 10px;
+}
+
 .item a{
+  padding: 10px;
   color: #fff;
   text-decoration: none;
 }
-.item.active a{
+.item a.active{
   color: gold;
 }
