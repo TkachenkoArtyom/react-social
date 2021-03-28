@@ -1,22 +1,36 @@
 import React from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
+import {updateNewPostText} from "../../../redux/state";
 
 function MyPosts(props) {
+    const postsElements = props.posts.map(post => {
+        return <Post text={post.text} id={post.id} likesCount={post.likesCount}/>
+    })
+    const newPostElement = React.createRef()
+    const addPost = () => {
+        props.addPost()
+    }
+    const onPostChange = () => {
+        let text = newPostElement.current.value
+        props.updateNewPostText(text)
+    }
     return (
-        <div>
-            all Posts
+        <div className={styles.postsBlock}>
+            <h3>
+                My Posts
+            </h3>
             <div>
-                <textarea></textarea>
-                <button>Add post</button>
-                <button>Remove post</button>
+                <div>
+                    <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}/>
+                </div>
+                <div>
+                    <button onClick={addPost}>Add post</button>
+                    <button>Remove post</button>
+                </div>
             </div>
             <div className={styles.posts}>
-
-                <Post text='Привет'/>
-                <Post text='Я трейдер, мне 8 лет'/>
-                <Post text='А я Senior, мне 12 лет'/>
-
+                {postsElements}
             </div>
         </div>
     );

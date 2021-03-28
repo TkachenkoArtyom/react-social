@@ -3,10 +3,12 @@ import styles from "./Post.module.css";
 
 function Post(props) {
     return (
-        <div className={styles.item}>
-            <img
-                src="https://st2.depositphotos.com/3079665/6151/v/600/depositphotos_61516793-stock-illustration-panda-standing.jpg"/>
-            {props.text}
+        <div>
+            <div className={styles.item}>
+                <img
+                    src="https://st2.depositphotos.com/3079665/6151/v/600/depositphotos_61516793-stock-illustration-panda-standing.jpg" alt="avatar"/>
+                {props.text}
+            </div>
             <div>
                 <span>like</span>
             </div>
