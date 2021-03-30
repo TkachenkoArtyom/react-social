@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
-import {addPost, subscribe, updateNewPostText} from "./redux/state";
 import store from './redux/state'
 
 export const rerenderEntireTree = (state) => {
