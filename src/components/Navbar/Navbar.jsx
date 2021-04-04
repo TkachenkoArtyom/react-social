@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Navbar.module.css'
 import {NavLink} from "react-router-dom";
 
-function Navbar(props) {
+function Navbar() {
     return (
         <nav className={styles.nav}>
             <ul className={styles.list}>
@@ -13,13 +13,7 @@ function Navbar(props) {
                     <NavLink to='/dialogs' activeClassName={styles.active}>Dialogs</NavLink>
                 </li>
                 <li className={styles.item}>
-                    <a href="#">News</a>
-                </li>
-                <li className={styles.item}>
-                    <a href="#">Music</a>
-                </li>
-                <li className={styles.item}>
-                    <a href="#">Settings</a>
+                    <a href="/users">Users</a>
                 </li>
             </ul>
         </nav>
