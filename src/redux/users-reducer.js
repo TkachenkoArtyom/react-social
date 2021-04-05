@@ -1,34 +1,13 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
+const SET_CURRENT_PAGE = 1;
 
 let initialState = {
-    users: [
-        {
-            id: 1,
-            userPhoto: 'https://www.thefashionisto.com/wp-content/uploads/2019/07/Male-Model-Businessman-Suit.jpg',
-            followed: false,
-            fullName: 'Dmitry',
-            status: 'Im a boss',
-            location: {city: 'Minsk', country: 'Belarus'}
-        },
-        {
-            id: 2,
-            userPhoto: 'https://www.thefashionisto.com/wp-content/uploads/2019/07/Male-Model-Businessman-Suit.jpg',
-            followed: true,
-            fullName: 'Artyom',
-            status: 'Im a boss',
-            location: {city: 'Moscow', country: 'Russia'}
-        },
-        {
-            id: 3,
-            userPhoto: 'https://www.thefashionisto.com/wp-content/uploads/2019/07/Male-Model-Businessman-Suit.jpg',
-            followed: false,
-            fullName: 'Maskim',
-            status: 'Im a boss',
-            location: {city: 'Kiev', country: 'Ukraine'}
-        }
-    ]
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 21,
+    currentPage: 1
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -58,7 +37,13 @@ const usersReducer = (state = initialState, action) => {
         case SET_USERS: {
             return {
                 ...state,
-                users: [...state.users]
+                users: [...state.users, ...action.users]
+            }
+        }
+        case SET_CURRENT_PAGE: {
+            return {
+                ...state,
+                currentPage: action.currentPage
             }
         }
         default:
@@ -77,6 +62,9 @@ export const unfollowAC = (userId) => ({
 
 export const setUsersAC = (users) => ({
     type: SET_USERS, users
+});
+export const setCurrentPageAC = (currentPage) => ({
+    type: SET_CURRENT_PAGE, currentPage
 });
 
 export default usersReducer;

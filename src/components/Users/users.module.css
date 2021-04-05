@@ -1,4 +1,10 @@
 .avatar {
-    width: 300px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
+    border-radius: 10em;
+}
+
+.selectedPage {
+    font-size: 24px;
+    font-weight: bold;
 }
