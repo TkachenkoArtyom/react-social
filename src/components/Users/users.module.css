@@ -5,6 +5,10 @@
     border-radius: 10em;
 }
 .currentPage {
+    border-radius: 10em;
+}
+
+.selectedPage {
     font-size: 24px;
     font-weight: bold;
 }
