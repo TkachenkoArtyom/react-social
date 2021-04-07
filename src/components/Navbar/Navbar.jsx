@@ -13,7 +13,7 @@ function Navbar() {
                     <NavLink to='/dialogs' activeClassName={styles.active}>Dialogs</NavLink>
                 </li>
                 <li className={styles.item}>
-                    <a href="/users">Users</a>
+                    <NavLink to='/users' activeClassName={styles.active}>Users</NavLink>
                 </li>
             </ul>
         </nav>
