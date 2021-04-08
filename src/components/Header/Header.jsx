@@ -16,7 +16,6 @@ function Header(props) {
                         props.login
                         : <NavLink to={'/login'}> Login </NavLink>
                 }
-
             </div>
         </header>
     );
