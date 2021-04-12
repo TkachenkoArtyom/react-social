@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './users.module.css';
 import {NavLink} from "react-router-dom";
-import * as axios from "axios";
-import {usersAPI} from "../../api/api";
 
 let Users = (props) => {
     let pagesCount = Math.ceil(props.usersCount / props.pageSize);
@@ -10,18 +8,19 @@ let Users = (props) => {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
+
     return (
         <div>
-            <div>
+            <div className={styles.pagesWrapper}>
                 {
                     pages.map(page => {
-                        return <span
+                        return <div
                             key={page}
-                            className={props.currentpage == page ? styles.selectedPage : styles.defaultPage}
+                            className={props.currentPage == page ? styles.selectedPage : styles.defaultPage}
                             onClick={() => {
                                 props.onChangePage(page)
                             }}
-                        >{page}</span>
+                        >{page}</div>
                     })
                 }
             </div>
@@ -40,12 +39,14 @@ let Users = (props) => {
                                 </div>
                                 <div>
                                     {user.followed
-                                        ? <button disabled={props.followingInProgress.some(id => id == user.id)} onClick={() => {
-                                            props.unfollow(user.id);
-                                        }}>Follow</button>
-                                        : <button disabled={props.followingInProgress.some(id => id == user.id)} onClick={() => {
-                                            props.unfollow(user.id);
-                                        }}>Unfollow</button>
+                                        ? <button disabled={props.followingInProgress.some(id => id == user.id)}
+                                                  onClick={() => {
+                                                      props.unfollow(user.id);
+                                                  }}>Unfollow</button>
+                                        : <button disabled={props.followingInProgress.some(id => id == user.id)}
+                                                  onClick={() => {
+                                                      props.follow(user.id);
+                                                  }}>Follow</button>
                                     }
                                 </div>
                             </span>

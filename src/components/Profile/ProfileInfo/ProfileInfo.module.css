@@ -1,8 +1,31 @@
 .descriptionBlock {
     padding: 10px;
+    border: 1px solid #000;
+    border-radius: 10px;
 }
 
 .img {
     width: 100%;
     max-height: 350px;
 }
+
+.profileImage {
+    border-radius: 10em;
+    width: 150px;
+    height: auto;
+}
+
+.fullName {
+    font-size: 24px;
+}
+
+.aboutMe {
+    font-size: 16px;
+    font-style: italic;
+}
+
+.status {
+    font-size: 18px;
+}
+
+
