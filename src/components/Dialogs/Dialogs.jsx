@@ -2,30 +2,28 @@ import React from 'react';
 import styles from './Dialogs.module.css'
 import Message from "./Message/Message";
 import DialogsItem from "./DialogsItem/DialogsItem";
+import {Form, Field} from 'react-final-form';
+import {validators} from "../../utils/validators/validators";
+import {FormControlElement} from "../common/FormControls/FormControls";
 
 function Dialogs(props) {
-
     let state = props.dialogsPage;
-
     const dialogElements = state.dialogs.map(dialog =>
         <DialogsItem
+            key={dialog.id}
+            id={dialog.id}
             name={dialog.name}
-            id={dialog.id}/>
+        />
     )
     const messageElement = state.messages.map(item =>
         <Message
+            key={item.id}
+            id={item.id}
             message={item.message}
-            id={item.id}/>
+        />
     )
-    const newMessageBody = state.newMessageBody;
-
-    const onSendMessageClick = () => {
-        props.sendMessage();
-    }
-
-    const onNewMessageChange = (e) => {
-        let body = e.target.value;
-        props.updateMessageText(body);
+    const addNewMessage = (message) => {
+        props.sendMessage(message);
     }
 
     return (
@@ -35,20 +33,50 @@ function Dialogs(props) {
             </div>
             <div className={styles.messages}>
                 <div>{messageElement}</div>
-                <div>
-                    <div>
-                        <textarea
-                            value={newMessageBody}
-                            onChange={onNewMessageChange}
-                            placeholder='Enter your message'></textarea>
-                    </div>
-                    <div>
-                        <button onClick={onSendMessageClick}>Send</button>
-                    </div>
-                </div>
+                <AddMessageForm addNewMessage={addNewMessage}/>
             </div>
         </div>
     );
+}
+
+const AddMessageForm = (props) => {
+    const TextArea = FormControlElement('textarea');
+
+    return (
+        <Form onSubmit={values => {
+            props.addNewMessage(values.message);
+        }}
+          validate={values => {
+
+          }}
+        >
+            {({handleSubmit, pristine, form, submitting}) => (
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <Field
+                            name='message'
+                            component={TextArea}
+                            validate={validators.maxLength(50)}
+                            placeholder='Enter your message'
+                        />
+                    </div>
+                    <div>
+                        <button
+                            type='submit'
+                            disabled={submitting}
+                        > Send
+                        </button>
+                        <button
+                            type="button"
+                            disabled={pristine || submitting}
+                            onClick={form.reset}
+                        > Clear
+                        </button>
+                    </div>
+                </form>
+            )}
+        </Form>
+    )
 }
 
 export default Dialogs;

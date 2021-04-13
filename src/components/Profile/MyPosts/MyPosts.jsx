@@ -1,43 +1,68 @@
 import React from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
+import {Form, Field} from 'react-final-form';
+import {validators} from "../../../utils/validators/validators";
+import  {FormControlElement} from "../../common/FormControls/FormControls";
 
-function MyPosts(props) {
-
-    let state = props.profilePage
-
+const MyPosts = (props) => {
+    let state = props.profilePage;
     const postsElements = state.posts.map(post => {
-        return <Post text={post.text} id={post.id} likesCount={post.likesCount}/>
+        return <Post
+            key={post.key}
+            id={post.id}
+            text={post.text}
+            likesCount={post.likesCount}/>
     })
-
-    const newPostElement = React.createRef()
-
-    const addPost = () => {
-        props.addPost();
-    }
-    const onPostChange = () => {
-        let text = newPostElement.current.value
-        props.onPostChange(text);
+    const addPost = (value) => {
+        props.addPost(value);
     }
     return (
         <div className={styles.postsBlock}>
-            <h3>
-                My Posts
-            </h3>
-            <div>
-                <div>
-                    <textarea onChange={onPostChange} ref={newPostElement} value={state.newPostText}/>
-                </div>
-                <div>
-                    <button onClick={addPost}>Add post</button>
-                    <button>Remove post</button>
-                </div>
-            </div>
-            <div className={styles.posts}>
-                {postsElements}
-            </div>
+            <h3> My Posts </h3>
+            <FormAddPost addPost={addPost}/>
+            <div className={styles.posts}>{postsElements}</div>
         </div>
     );
+}
+
+const FormAddPost = props => {
+    const TextArea = FormControlElement('textarea');
+    return (
+        <Form
+            onSubmit={values => {
+                props.addPost(values.post)
+            }}
+            validate={() => {
+
+            }}
+        >
+            {({handleSubmit, pristine, form, submitting}) => (
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <Field name={'post'}
+                               component={TextArea}
+                               placeholder={'Enter post text..'}
+                               validate={validators.maxLength(50)}
+                        />
+                    </div>
+                    <div>
+                        <div>
+                            <button type="submit"
+                                    disabled={submitting}
+                            > Add post
+                            </button>
+                            <button type="button"
+                                    disabled={pristine || submitting}
+                                    onClick={form.reset}
+                            > Clear
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            )}
+        </Form>
+    )
 }
 
 export default MyPosts;
