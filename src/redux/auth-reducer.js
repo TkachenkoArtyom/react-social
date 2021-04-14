@@ -1,12 +1,14 @@
 import {authAPI} from "../api/api";
 
 const SET_USERS_DATA = 'SET_USERS_DATA';
+const IS_ERROR = 'IS_ERROR';
 
 let initialState = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
+    error: {show: false, message: ''}
 };
 
 const authReducer = (state = initialState, action) => {
@@ -14,8 +16,13 @@ const authReducer = (state = initialState, action) => {
         case SET_USERS_DATA: {
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.payload
+            }
+        }
+        case IS_ERROR: {
+            return {
+                ...state,
+                error: action.error
             }
         }
         default:
@@ -23,19 +30,50 @@ const authReducer = (state = initialState, action) => {
     }
 };
 
-export const setAuthUserData = (userId, email, login) => ({type: SET_USERS_DATA, data: {userId, email, login}});
+export const setAuthUserData = (userId, email, login, isAuth) => ({
+    type: SET_USERS_DATA,
+    payload: {userId, email, login, isAuth}
+});
+export const getError = (error) => ({type: IS_ERROR, error});
 
 export const getUsersData = () => {
     return (dispatch) => {
-        authAPI.getUserData()
-            .then(data => {
-                if (data.resultCode == 0) {
-                    let {id, email, login} = data.data
-                    dispatch(setAuthUserData(id, email, login))
+        authAPI.me()
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    let {id, email, login} = response.data.data
+                    dispatch(setAuthUserData(id, email, login, true))
                 }
             })
     }
 }
 
+export const login = (email, password, rememberMe) => {
+    return (dispatch) => {
+        authAPI.login(email, password, rememberMe)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(getUsersData());
+                    dispatch(getError({show: false, message: ''}));
+                } else {
+                    dispatch(getError({show: true, message: response.data.messages.length
+                            ? response.data.messages[0]
+                            : 'Some error'}
+                    ));
+                }
+            })
+    }
+}
+
+export const logout = () => {
+    return (dispatch) => {
+        authAPI.logout()
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(setAuthUserData(null, null, null, false));
+                }
+            })
+    }
+}
 
 export default authReducer;
