@@ -38,7 +38,7 @@ export const getError = (error) => ({type: IS_ERROR, error});
 
 export const getUsersData = () => {
     return (dispatch) => {
-        authAPI.me()
+        return authAPI.me()
             .then(response => {
                 if (response.data.resultCode === 0) {
                     let {id, email, login} = response.data.data

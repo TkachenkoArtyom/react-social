@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './ProfileInfo.module.css'
 import Preloader from "../../common/preloader/Preloader";
 import Status from "../Status";
+import ProfileStatusWithHooks from "../ProfileStatusWithHooks";
 
 function ProfileInfo(props) {
     if (!props.profile) {
@@ -25,7 +26,7 @@ function ProfileInfo(props) {
                 />
                 <div className={styles.fullName}>{props.profile.fullName}</div>
                 <div className={styles.aboutMe}>{props.profile.aboutMe || 'Empty'}</div>
-                <Status {...props}/>
+                <ProfileStatusWithHooks {...props}/>
             </div>
         </div>
     );
