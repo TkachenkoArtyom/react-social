@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {Form, Field} from 'react-final-form';
+import {Field, Form} from 'react-final-form';
 import {validators} from "../../../utils/validators/validators";
-import  {FormControlElement} from "../../common/FormControls/FormControls";
+import {FormControlElement} from "../../common/FormControls/FormControls";
 
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {
     let state = props.profilePage;
     const postsElements = state.posts.map(post => {
         return <Post
@@ -24,7 +24,7 @@ const MyPosts = (props) => {
             <div className={styles.posts}>{postsElements}</div>
         </div>
     );
-}
+})
 
 const FormAddPost = props => {
     const TextArea = FormControlElement('textarea');
