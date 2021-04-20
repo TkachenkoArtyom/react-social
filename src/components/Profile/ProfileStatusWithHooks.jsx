@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./ProfileInfo/ProfileInfo.module.css";
 
-const ProfileStatusWithHooks = props => {
+const ProfileStatusWithHooks = ({status, setStatus}) => {
     const [editMode, setEditMode] = React.useState(false);
-    const [status, setStatus] = React.useState(props.status);
+    const [currStatus, setCurrStatus] = React.useState(status);
 
     React.useEffect( () => {
-        setStatus(props.status);
-    }, [props.status]);
+        setCurrStatus(status);
+    }, [status]);
 
     const activatedEditMode = () => {
         setEditMode(true);
@@ -15,11 +15,11 @@ const ProfileStatusWithHooks = props => {
 
     const deActivatedEditMode = () => {
         setEditMode(false);
-        props.setStatus(status);
+        setStatus(currStatus);
     }
 
     const onStatusChange = (e) => {
-        setStatus(e.currentTarget.value)
+        setCurrStatus(e.currentTarget.value)
     }
 
     return (
@@ -29,14 +29,14 @@ const ProfileStatusWithHooks = props => {
                     ? <div
                         onDoubleClick={activatedEditMode}
                         className={styles.status}>
-                        {status}
+                        {currStatus}
                     </div>
                     : <input
                         autoFocus='true'
                         onBlur={deActivatedEditMode}
                         onChange={onStatusChange}
                         type='text'
-                        value={status}
+                        value={currStatus}
                     />
             }
         </>

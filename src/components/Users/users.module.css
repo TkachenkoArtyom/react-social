@@ -4,38 +4,5 @@
     object-fit: cover;
     border-radius: 10em;
 }
-.pagesWrapper {
-    display: flex;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #000;
 
-}
-.selectedPage {
-    margin: 0 2px;
-    border-radius: 10em;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    border: 1px solid #fff;
-    font-size: 24px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.defaultPage {
-    margin: 0 2px;
-    font-size: 21px;
-    font-weight: normal;
-    border-radius: 10em;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    border: 1px solid #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 

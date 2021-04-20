@@ -4,7 +4,7 @@ const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
 
 const initialState = {
     initialized: false
-}
+};
 
 const appReducer = (state = initialState, action) => {
     switch (action.type) {

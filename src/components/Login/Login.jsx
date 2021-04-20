@@ -7,17 +7,17 @@ import {login} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import styles from './../common/FormControls/FormControls.module.css';
 
-const Login = (props) => {
+const Login = ({ isAuth, login, error}) => {
     const Input = FormControlElement('input');
 
-    if (props.isAuth === true) {
+    if (isAuth === true) {
         return <Redirect to={'/profile'}/>
     }
 
     return (
         <Form
             onSubmit={values => {
-                props.login(values.email, values.password, values.rememberMe);
+                login(values.email, values.password, values.rememberMe);
             }}
         >
             {({handleSubmit, pristine, form, submitting}) => (
@@ -49,8 +49,8 @@ const Login = (props) => {
                             validate={validators.maxLength(20)}
                         />
                     </div>
-                    {props.error.show && <div className={styles.formSummaryError}>
-                        {props.error.message}
+                    {error.show && <div className={styles.formSummaryError}>
+                        {error.message}
                     </div>}
                     <div>
                         <button type="submit" disabled={submitting}>

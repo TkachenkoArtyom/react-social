@@ -1,7 +1,7 @@
 import {authAPI} from "../api/api";
 
-const SET_USERS_DATA = 'SET_USERS_DATA';
-const IS_ERROR = 'IS_ERROR';
+const SET_USERS_DATA = 'social/auth/SET_USERS_DATA';
+const IS_ERROR = 'social/auth/IS_ERROR';
 
 let initialState = {
     userId: null,
@@ -37,42 +37,42 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
 export const getError = (error) => ({type: IS_ERROR, error});
 
 export const getUsersData = () => {
-    return (dispatch) => {
-        return authAPI.me()
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    let {id, email, login} = response.data.data
-                    dispatch(setAuthUserData(id, email, login, true))
-                }
-            })
+    return async (dispatch) => {
+        let response = await authAPI.me();
+
+        if (response.data.resultCode === 0) {
+            let {id, email, login} = response.data.data
+            dispatch(setAuthUserData(id, email, login, true))
+        }
+
     }
 }
 
 export const login = (email, password, rememberMe) => {
-    return (dispatch) => {
-        authAPI.login(email, password, rememberMe)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(getUsersData());
-                    dispatch(getError({show: false, message: ''}));
-                } else {
-                    dispatch(getError({show: true, message: response.data.messages.length
-                            ? response.data.messages[0]
-                            : 'Some error'}
-                    ));
+    return async (dispatch) => {
+        let response = await authAPI.login(email, password, rememberMe);
+
+        if (response.data.resultCode === 0) {
+            dispatch(getUsersData());
+            dispatch(getError({show: false, message: ''}));
+        } else {
+            dispatch(getError({
+                    show: true, message: response.data.messages.length
+                    ? response.data.messages[0]
+                    : 'Some error'
                 }
-            })
+            ));
+        }
     }
 }
 
 export const logout = () => {
-    return (dispatch) => {
-        authAPI.logout()
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setAuthUserData(null, null, null, false));
-                }
-            })
+    return async (dispatch) => {
+        let response = await authAPI.logout();
+
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false));
+        }
     }
 }
 
