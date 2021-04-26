@@ -3,13 +3,14 @@ import styles from './users.module.css';
 import {NavLink} from "react-router-dom";
 import Paginator from "../common/Paginator/Paginator";
 
-let Users = ({currentPage, onChangePage, usersCount, pageSize, ...props}) => {
+let Users = ({currentPage, onChangePage, usersCount, pageSize, portionSize, ...props}) => {
     return (
         <div>
             <Paginator currentPage={currentPage}
                        onChangePage={onChangePage}
                        usersCount={usersCount}
                        pageSize={pageSize}
+                       portionSize={portionSize}
             />
             {
                 props.users.map(user =>
@@ -25,7 +26,7 @@ let Users = ({currentPage, onChangePage, usersCount, pageSize, ...props}) => {
                                     </NavLink>
                                 </div>
                                 <div>
-                                    {user.followed
+                                    { user.followed
                                         ? <button disabled={props.followingInProgress.some(id => id === user.id)}
                                                   onClick={() => {
                                                       props.unfollow(user.id);

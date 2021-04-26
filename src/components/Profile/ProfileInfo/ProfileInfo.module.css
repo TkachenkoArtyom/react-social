@@ -4,6 +4,10 @@
     border-radius: 10px;
 }
 
+.contact {
+    padding-left: 10px;
+}
+
 .img {
     width: 100%;
     max-height: 350px;

@@ -11,7 +11,7 @@ import {compose} from "redux";
 import {WithAuthRedirect} from "../hoc/WithAuthRedirect";
 import {
     getCurrentPageSelector, getFollowingInProgressSelector, getIsFetchingSelector,
-    getPageSizeSelector,
+    getPageSizeSelector, getPortionSize,
     getUsersCountSelector,
     getUsersSelector
 } from "../../redux/users-selectors";
@@ -40,6 +40,7 @@ class UsersContainer extends React.Component {
                     unfollow={this.props.unfollow}
                     isFetching={this.props.isFetching}
                     followingInProgress={this.props.followingInProgress}
+                    portionSize={this.props.portionSize}
                 />}
         </>
     }
@@ -52,7 +53,8 @@ const mapStateToProps = (state) => {
         usersCount: getUsersCountSelector(state),
         currentPage: getCurrentPageSelector(state),
         isFetching: getIsFetchingSelector(state),
-        followingInProgress: getFollowingInProgressSelector(state)
+        followingInProgress: getFollowingInProgressSelector(state),
+        portionSize: getPortionSize(state)
     }
 }
 

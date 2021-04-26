@@ -15,7 +15,8 @@ let initialState = {
     usersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: []
+    followingInProgress: [],
+    portionSize: 10
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -90,8 +91,8 @@ export const getUsers = (currentPage, pageSize) => {
 
         dispatch(toggleIsFetching(false));
         dispatch(setUsers(response.items));
-        dispatch(setTotalCountUsers(50));
-        // dispatch(setTotalCountUsers(data.totalCount));
+        // dispatch(setTotalCountUsers(50));
+        dispatch(setTotalCountUsers(response.totalCount));
     }
 }
 
