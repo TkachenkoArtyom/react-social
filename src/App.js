@@ -1,6 +1,6 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import './App.css';
-import {BrowserRouter, Route, withRouter, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, withRouter, Switch, Redirect} from 'react-router-dom';
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
@@ -19,7 +19,6 @@ class App extends React.Component {
     componentDidMount() {
         this.props.initializeApp();
     }
-
     render() {
         if (!this.props.initialized) {
             return <Preloader/>
@@ -28,9 +27,9 @@ class App extends React.Component {
             <div className={'app-wrapper'}>
                 <HeaderContainer/>
                 <Navbar/>
-
                 <div className='app-wrapper-content'>
                     <Switch>
+                        <Redirect exact from="/" to="/profile" />
                         <Route path='/dialogs' render={WithSuspense(DialogsContainer)}/>
                         <Route path='/profile/:userId?' render={WithSuspense(ProfileContainer)}/>
                         <Route path='/users' render={WithSuspense(UsersContainer)}/>

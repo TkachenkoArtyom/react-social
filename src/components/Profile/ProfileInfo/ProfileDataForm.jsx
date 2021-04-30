@@ -1,55 +1,76 @@
 import React from 'react';
 import {Form, Field} from 'react-final-form';
 import {FormControlElement} from "../../common/FormControls/FormControls";
+import styles from './ProfileInfo.module.css';
 
-const ProfileDataForm = ({profile, leaveEditMode}) => {
+const ProfileDataForm = ({profile, leaveEditMode, saveProfile}) => {
 
-    const Select = FormControlElement('select');
+    const Input = FormControlElement('input');
     const TextArea = FormControlElement('textarea');
 
     return (
         <Form
-            onSubmit={values => {
-                console.log(values)
-
+            onSubmit={async values => {
+                await saveProfile(values);
+                leaveEditMode();
             }}
+            initialValues={profile}
         >
             {({handleSubmit, pristine, form, submitting}) => (
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <Field name={'lookingForAJob'}>
-                        {props => (
-                                <div>
-                                    <b>Looking for a job:</b>
-                                    <select {...props}>
-                                        <option value="yes">yes</option>
-                                        <option value="no">no</option>
-                                    </select>
-                                </div>
-                            )}
-                        </Field>
+                        <label htmlFor={'fullName'}>
+                            <b>Full Name:</b>
+                            <Field
+                                name={'fullName'}
+                                component={Input}
+                                type={'text'}
+                            />
+                        </label>
                     </div>
-
-                    {/*<div>*/}
-                    {/*    <b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}*/}
-                    {/*</div>*/}
+                    <div>
+                        <label htmlFor={'lookingForAJob'}>
+                            <b>Looking for a job:</b>
+                            <Field
+                                name={'lookingForAJob'}
+                                component={Input}
+                                type={'checkbox'}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label htmlFor={'lookingForAJobDescription'}>
+                            <b>Looking for a job description:</b>
+                            <Field name={'lookingForAJobDescription'}
+                                   component={TextArea}
+                                   placeholder={'Type something here..'}
+                            />
+                        </label>
+                    </div>
 
                     <div>
-                        <Field name={'aboutMe'}>
-                            {props => (
-                                <div>
-                                    <b>About me:</b>
-                                    <textarea {...props} placeholder={'Type something here..'}></textarea>
-                                </div>
-                            )}
-                        </Field>
+                        <label htmlFor={'aboutMe'}>
+                            <b>About me:</b>
+                            <Field name={'aboutMe'}
+                                   component={TextArea}
+                                   placeholder={'Type something here..'}
+                            />
+                        </label>
                     </div>
-
                     <div>
                         <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
-                        // return <Contact contactTitle={key} contactValue={profile.contacts[key]}/>
+                         return <div key={key} className={styles.contact}>
+                                     <b>{key}</b>:
+                                     <Field
+                                        name={'contacts.' + key}
+                                        component={Input}
+                                        type={'text'}
+                                        placeholder={'Enter contact..'}
+                                     />
+                                </div>
                     })}
                     </div>
+
 
                     <div>
                         <button type={'submit'} disabled={submitting}>

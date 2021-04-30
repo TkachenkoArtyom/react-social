@@ -4,7 +4,7 @@ import Preloader from "../../common/Preloader/Preloader";
 import ProfileStatusWithHooks from "../ProfileStatusWithHooks";
 import ProfileDataForm from "./ProfileDataForm";
 
-const ProfileInfo = ({profile, status, setStatus, isOwner, savePhoto}) => {
+const ProfileInfo = ({profile, status, setStatus, isOwner, savePhoto, saveProfile}) => {
     const [editMode, setEditMode] = React.useState(false);
 
     if (!profile) {
@@ -31,7 +31,7 @@ const ProfileInfo = ({profile, status, setStatus, isOwner, savePhoto}) => {
 
                 {
                     editMode
-                    ? <ProfileDataForm profile={profile} leaveEditMode={() => setEditMode(false)}/>
+                    ? <ProfileDataForm profile={profile} saveProfile={saveProfile} leaveEditMode={() => setEditMode(false)}/>
                         : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => setEditMode(true)}/>
                 }
 
@@ -66,7 +66,7 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 
             <div>
                 <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
-                return <Contact contactTitle={key} contactValue={profile.contacts[key]}/>
+                return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
             })}
             </div>
         </div>

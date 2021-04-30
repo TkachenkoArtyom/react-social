@@ -9,7 +9,7 @@ const MyPosts = React.memo((props) => {
     let state = props.profilePage;
     const postsElements = state.posts.map(post => {
         return <Post
-            key={post.key}
+            key={post.id}
             id={post.id}
             text={post.text}
             likesCount={post.likesCount}/>

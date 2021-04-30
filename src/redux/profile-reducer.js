@@ -6,6 +6,7 @@ const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
 const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
 
+
 let initialState = {
     posts: [
         {id: 1, text: 'Привет', likesCount: 8},
@@ -60,26 +61,34 @@ export const deletePost = (postId) => ({type: DELETE_POST, postId});
 export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos});
 
 export const setProfile = (userId) => async (dispatch) => {
-    let response = await profileAPI.setProfile(userId);
+    const response = await profileAPI.setProfile(userId);
     dispatch(setUserProfile(response));
 }
 
 export const getStatus = (userId) => async (dispatch) => {
-    let response = await profileAPI.getStatus(userId);
+    const response = await profileAPI.getStatus(userId);
     dispatch(updateUserStatus(response.data));
 }
 
 export const setStatus = (status) => async (dispatch) => {
-    let response = await profileAPI.setStatus(status);
+    const response = await profileAPI.setStatus(status);
     if (response.data.resultCode === 0) {
         dispatch(updateUserStatus(status));
     }
 }
 
 export const savePhoto = (file) => async (dispatch) => {
-    let response = await profileAPI.savePhoto(file);
+    const response = await profileAPI.savePhoto(file);
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data.photos));
+    }
+}
+
+export const saveProfile = (profile) => async (dispatch, getState) => {
+    const response = await profileAPI.saveProfile(profile);
+    const userId = getState().auth.userId;
+    if (response.data.resultCode === 0) {
+        dispatch(setProfile(userId));
     }
 }
 

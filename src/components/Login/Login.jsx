@@ -7,7 +7,7 @@ import {login} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import styles from './../common/FormControls/FormControls.module.css';
 
-const Login = ({ isAuth, login, error}) => {
+const Login = ({ isAuth, login, error, captchaUrl}) => {
     const Input = FormControlElement('input');
 
     if (isAuth === true) {
@@ -17,7 +17,8 @@ const Login = ({ isAuth, login, error}) => {
     return (
         <Form
             onSubmit={values => {
-                login(values.email, values.password, values.rememberMe);
+                console.log(values)
+                login(values.email, values.password, values.rememberMe, values.captcha);
             }}
         >
             {({handleSubmit, pristine, form, submitting}) => (
@@ -52,6 +53,19 @@ const Login = ({ isAuth, login, error}) => {
                     {error.show && <div className={styles.formSummaryError}>
                         {error.message}
                     </div>}
+
+                    {
+                        captchaUrl && <div>
+                            <img src={captchaUrl} alt="Captcha"/>
+                            <Field
+                                name={'captcha'}
+                                component={Input}
+                                placeholder={'Enter captcha here..'}
+                                validate={validators.required}
+                            />
+                        </div>
+                    }
+
                     <div>
                         <button type="submit" disabled={submitting}>
                             Submit
@@ -64,7 +78,6 @@ const Login = ({ isAuth, login, error}) => {
                             Clear Values
                         </button>
                     </div>
-
                 </form>
             )}
         </Form>
@@ -73,6 +86,7 @@ const Login = ({ isAuth, login, error}) => {
 
 const mapStateToProps = (state) => {
     return {
+        captchaUrl: state.auth.captchaUrl,
         isAuth: state.auth.isAuth,
         error: state.auth.error
     }
