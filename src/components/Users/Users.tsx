@@ -2,8 +2,21 @@ import React from 'react';
 import styles from './users.module.css';
 import {NavLink} from "react-router-dom";
 import Paginator from "../common/Paginator/Paginator";
+import {UserType} from "../../types/types";
 
-let Users = ({currentPage, onChangePage, usersCount, pageSize, portionSize, ...props}) => {
+type PropsType = {
+    currentPage: number
+    onChangePage: (pageNum: number) => void
+    usersCount: number
+    pageSize: number
+    portionSize: number
+    users: Array<UserType>
+    followingInProgress: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+}
+
+const Users: React.FC<PropsType> = ({currentPage, onChangePage, usersCount, pageSize, portionSize, ...props}) => {
     return (
         <div>
             <Paginator currentPage={currentPage}
@@ -26,7 +39,7 @@ let Users = ({currentPage, onChangePage, usersCount, pageSize, portionSize, ...p
                                     </NavLink>
                                 </div>
                                 <div>
-                                    { user.followed
+                                    {user.followed
                                         ? <button disabled={props.followingInProgress.some(id => id === user.id)}
                                                   onClick={() => {
                                                       props.unfollow(user.id);

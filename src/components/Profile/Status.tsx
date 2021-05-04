@@ -1,7 +1,17 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import styles from "./ProfileInfo/ProfileInfo.module.css";
 
-class Status extends React.Component {
+type PropsType = {
+    status: string
+    setStatus: (newStatus:string) => void
+}
+
+type StateType = {
+    isEdited: boolean
+    status: string
+}
+
+class Status extends React.Component<PropsType, StateType> {
     state = {
         isEdited: false,
         status: this.props.status
@@ -16,13 +26,13 @@ class Status extends React.Component {
         this.setState({ isEdited: true });
     }
 
-    onStatusChange = (e) => {
+    onStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            status: e.target.value
+            status: event.currentTarget.value
         })
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
+    componentDidUpdate = (prevProps: PropsType, prevState: StateType) => {
         if (prevProps.status !== this.props.status) {
             this.setState({
                 status: this.props.status
@@ -41,7 +51,7 @@ class Status extends React.Component {
                             {this.state.status}
                         </div>
                         : <input
-                            autoFocus='true'
+                            autoFocus={true}
                             onBlur={this.deActivateStatusEdit}
                             onChange={this.onStatusChange}
                             type='text'

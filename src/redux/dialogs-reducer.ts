@@ -29,7 +29,7 @@ const initialState = {
     ] as Array<MessageType>
 }
 
-export type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState;
 
 const dialogsReducer = (state = initialState, action: any) : InitialStateType => {
     switch (action.type) {

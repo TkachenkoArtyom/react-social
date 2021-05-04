@@ -15,14 +15,39 @@ import {
     getUsersCountSelector,
     getUsersSelector
 } from "../../redux/users-selectors";
+import {UserType} from "../../types/types";
+import {AppStateType} from "../../redux/redux-store";
 
-class UsersContainer extends React.Component {
+type MapStatePropsType = {
+    currentPage: number
+    pageSize: number
+    isFetching: boolean
+    users: Array<UserType>
+    followingInProgress: Array<number>
+    portionSize: number
+    usersCount: number
+}
+
+type MapDispatchPropsType = {
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    getUsers: (currentPage: number, pageSize: number) => void
+    setCurrentPage: (currentPage: number) => void
+}
+
+type OwnPropsType = {
+
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
+
+class UsersContainer extends React.Component<PropsType> {
     componentDidMount() {
         let {currentPage, pageSize} = this.props
         this.props.getUsers(currentPage, pageSize)
     }
 
-    onChangePage = (pageNum) => {
+    onChangePage = (pageNum: number) => {
         const {pageSize} = this.props
         this.props.getUsers(pageNum, pageSize)
     }
@@ -38,7 +63,6 @@ class UsersContainer extends React.Component {
                     pageSize={this.props.pageSize}
                     follow={this.props.follow}
                     unfollow={this.props.unfollow}
-                    isFetching={this.props.isFetching}
                     followingInProgress={this.props.followingInProgress}
                     portionSize={this.props.portionSize}
                 />}
@@ -46,7 +70,7 @@ class UsersContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         users: getUsersSelector(state),
         pageSize: getPageSizeSelector(state),
@@ -59,7 +83,7 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-    connect(mapStateToProps, {follow, unfollow, setCurrentPage, getUsers}),
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {follow, unfollow, setCurrentPage, getUsers}),
     WithAuthRedirect
 )(UsersContainer);
 
