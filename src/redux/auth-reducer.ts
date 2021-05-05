@@ -4,12 +4,14 @@ const SET_USERS_DATA = 'social/auth/SET_USERS_DATA';
 const IS_ERROR = 'social/auth/IS_ERROR';
 const GET_CAPTCHA_URL_SUCCESS = 'social/auth/GET_CAPTCHA_URL_SUCCESS';
 
+type ErrorType = {show: boolean, message: string}
+
 const initialState = {
     userId: null as null | number,
     email: null as null | string,
     login: null as null | string,
     isAuth: false as boolean,
-    error: {show: false, message: ''} as {show: boolean, message: string},
+    error: {show: false, message: ''} as ErrorType,
     captchaUrl: null as null | string
 };
 
@@ -56,7 +58,7 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
     type: SET_USERS_DATA,
     payload: {userId, email, login, isAuth}
 });
-export const getError = (error: Object) => ({type: IS_ERROR, error});
+export const getError = (error: ErrorType) => ({type: IS_ERROR, error});
 export const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessType => ({type: GET_CAPTCHA_URL_SUCCESS, payload: {captchaUrl}});
 
 export const getUsersData = () => {
@@ -66,11 +68,13 @@ export const getUsersData = () => {
         if (response.data.resultCode === 0) {
             let {id, email, login} = response.data.data
             dispatch(setAuthUserData(id, email, login, true))
+        } else {
+            dispatch(login('room5525969@mail.ru', '123321asd', false, null))
         }
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha: string) => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string | null) => {
     return async (dispatch: any) => {
         const response = await authAPI.login(email, password, rememberMe, captcha);
 

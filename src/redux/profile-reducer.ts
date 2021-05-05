@@ -9,9 +9,9 @@ const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
 
 const initialState = {
     posts: [
-        {id: 1, text: 'Привет', likesCount: 8},
-        {id: 2, text: 'Я трейдер, мне 8 лет', likesCount: 13},
-        {id: 3, text: 'А я Senior, мне 12 лет', likesCount: 10}
+        {id: 1, text: 'Call me!', likesCount: 8},
+        {id: 2, text: 'Hi, how are you?', likesCount: 13},
+        {id: 3, text: 'Hi, my name is Dasha', likesCount: 10}
     ] as Array<PostType>,
     profile: null as ProfileType | null,
     status: ''
